@@ -1,0 +1,68 @@
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.sidebar a {
+    display: block;
+    color: black;
+    padding: 1.5rem;
+    text-decoration: none;
+}
+
+.sidebar a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+.gap-right {
+    margin-right: 1rem;
+}
+
+.link-items {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+
+
+    justify-content: space-between;
+}
+
+.salir {
+    margin-top: 58vh;
+}
+
+@media screen and (max-width: 700px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .sidebar a {float: left;}
+
+
+    .salir {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .sidebar a {
+      text-align: center;
+      float: none;
+    }
+
+    .salir {
+        margin-top: 0;
+    }
+}

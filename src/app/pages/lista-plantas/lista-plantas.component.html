@@ -1,0 +1,31 @@
+
+<div *ngIf="!this.plantas.length" class="text-center mensaje de plantas mt-5">
+    <p>
+        No hay ninguna planta disponible :(
+    </p>
+    <i class="fa-solid fa-seedling gap-right fa-lg"></i>
+</div>
+
+<table *ngIf="this.plantas.length" class="table table-light">
+    <thead>
+        <th>Id</th>
+        <th>Nombre común</th>
+        <th>Letalidad</th>
+        <th>Tipo planta</th>
+        <th>Clima</th>
+        <th>Cantidad</th>
+        <th>Operaciones</th>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let planta of this.plantas">
+            <td>{{ planta.id }}</td>
+            <td>{{ planta.nombreComun }}</td>
+            <td>{{ planta.venenosa }}</td>
+            <td>{{ planta.tipoPlanta }}</td>
+            <td>{{ planta.clima }}</td>
+            <td>{{ planta.cantidad }}</td>
+            <td><button class="btn btn-primary" (click)="seleccionarPlanta(planta)">Seleccionar</button></td>
+        </tr>
+    </tbody>
+</table>

@@ -1,5 +1,5 @@
 export class Planta {
-    id!: string;
+    id?: string;
     nombreCientifico!: string;
     nombreComun!: string;
     descripcion!: string;
@@ -10,4 +10,5 @@ export class Planta {
     tipoFertilizante!: string;
     color!: string;
     venenosa!: boolean;
+    cantidad!: number;
 }

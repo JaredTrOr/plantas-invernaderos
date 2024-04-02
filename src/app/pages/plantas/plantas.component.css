@@ -1,0 +1,8 @@
+.no-resize {
+    resize: none;
+}
+
+.distribucion {
+    overflow: scroll;
+    height: 6rem;
+}

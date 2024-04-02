@@ -1,2 +1,96 @@
-<h1>Plantas</h1>
-<p>Estas son mis plantitas</p>
+<div class="col-lg-10">
+    <h1>Plantas</h1>
+    
+    <section class="form-container row">
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="nombreCientifico">Nombre científico:</label></p>
+            <input (blur)="validarNombreCientifico()" [(ngModel)]="this.nuevaPlanta.nombreCientifico" id="nombreCientifico" type="text" class="form-control">
+            <div *ngIf="!this.isValidNombreCientifico" class="text-danger">Nombre científico inválido, porfavor ingrese caracteres válidos</div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="nombreComun">Nombre común:</label></p>
+            <input (blur)="validarNombreComun()" [(ngModel)]="this.nuevaPlanta.nombreComun" id="nombreComun" type="text" class="form-control">
+            <div *ngIf="!this.isValidNombreComun" class="text-danger">Nombre común inválido, porfavor ingrese caracteres válidos</div>
+
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="habitat">Habitat:</label></p>
+            <select [(ngModel)]="this.nuevaPlanta.habitat" class="form-control" name="" id="habitat">
+                <option *ngFor="let habitat of this.tiposDeHabitat" value="{{ habitat }}">{{ habitat }}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="clima">Clima:</label></p>
+            <select [(ngModel)]="this.nuevaPlanta.clima" class="form-control" name="" id="clima">
+                <option *ngFor="let clima of this.tiposDeClima" value="{{ clima }}">{{ clima }}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="tipoPlanta">Tipo planta:</label></p>
+            <select [(ngModel)]="this.nuevaPlanta.tipoPlanta" class="form-control" name="" id="tipoPlanta">
+                <option *ngFor="let tipoPlanta of this.tiposDePlanta" value="{{ tipoPlanta }}">{{ tipoPlanta }}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="tipoFertilizante">Tipo Fertilizante:</label></p>
+            <select [(ngModel)]="this.nuevaPlanta.tipoFertilizante" class="form-control" name="" id="tipoFertilizante">
+                <option *ngFor="let tipoFertilizante of this.tiposDeFertilizante" value="{{ tipoFertilizante }}">{{ tipoFertilizante }}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="color">Color:</label></p>
+            <input (blur)="validarColor()" [(ngModel)]="this.nuevaPlanta.color" id="color" type="text" class="form-control">
+            <div *ngIf="!this.isValidColor" class="text-danger">Color inválido, porfavor ingrese caracteres válidos</div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="letalidad">Letalidad:</label></p>
+            <select (change)="test()" [(ngModel)]="this.nuevaPlanta.venenosa" class="form-control" name="" id="letalidad">
+                <option *ngFor="let obj of letalidad" value="{{ obj.value }}">{{ obj.texto }}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="cantidad">Cantidad:</label></p>
+            <input [(ngModel)]="this.nuevaPlanta.cantidad" id="cantidad" min="1" type="number" class="form-control">
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="descripcion">Descripción:</label></p>
+            <textarea (blur)="validarDescripcion()" [(ngModel)]="this.nuevaPlanta.descripcion" class="form-control no-resize" name="" id="descripcion" cols="30" rows="5"></textarea>
+            <div *ngIf="!this.isValidDescripcion" class="text-danger">Descripción inválida, porfavor ingrese caracteres válidos</div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="distribucionGeografica">Distribución geográfica:</label></p>
+            <button (click)="this.agregarInput()" class="btn btn-warning mt-3">Añadir otro</button>
+            <button (click)="this.removerInput()" *ngIf="this.nuevaPlanta.distribucionGeografica.length > 1" class="btn btn-danger mt-3">Remover</button>
+            <div class="distribucion">
+                <select [(ngModel)]="this.nuevaPlanta.distribucionGeografica[i]" *ngFor="let input of this.nuevaPlanta.distribucionGeografica; let i = index"  class="form-control mt-3" name="">
+                    <option *ngFor="let estado of this.distribucionesGeograficasMexico" value="{{ estado }}">{{ estado }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <button *ngIf="!this.nuevaPlanta.id" (click)="this.createPlanta()" class="btn btn-success btn-registrar w-100">Registrar</button>
+
+            <button (click)="this.limpiarInputsDeSeleccion()" *ngIf="this.nuevaPlanta.id" class="btn btn-secondary btn-limpiar w-100 mt-2">Limpiar</button>
+            <button (click)="this.updatePlanta()" *ngIf="this.nuevaPlanta.id" class="btn btn-dark btn-actualizar w-100 mt-2">Actualizar</button>
+            <button (click)="this.deletePlanta()" *ngIf="this.nuevaPlanta.id" class="btn btn-danger btn-borrar w-100 mt-2">Eliminar</button>
+        </div>
+    </section>
+
+    <section class="mt-5">
+        <app-lista-plantas [plantas]="this.listaPlantas" (plantaSeleccionada)="plantaSeleccionada($event)"></app-lista-plantas>
+    </section>
+
+</div>
+
