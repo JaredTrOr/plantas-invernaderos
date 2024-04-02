@@ -1,51 +1,62 @@
-<div class="col-lg-10">
-    <h1>Gerentes</h1>
+<div class="col-lg-12">
+    <h1><i class="fa-solid fa-user gap-right fa-lg"></i>  Gerentes</h1>
 
     <section class="form-container row">
         <div class="col-lg-4 mt-5">
             <p><label for="nombresGerente">Nombres:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.nombre" id="nombresGerente" type="text" class="form-control">
+            <input (blur)="this.validarNombre()" [(ngModel)]="this.nuevoGerente.nombre" id="nombresGerente" type="text" class="form-control">
+            <div *ngIf="!this.isValidNombre" class="text-danger">*Nombre inválido</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="apellidosGerente">Apellidos:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.apellidos" id="apellidosGerente" type="text" class="form-control">
+            <input (blur)="this.validarApellidos()" [(ngModel)]="this.nuevoGerente.apellidos" id="apellidosGerente" type="text" class="form-control">
+            <div *ngIf="!this.isValidApellidos" class="text-danger">*Apellidos inválidos</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="edad">Edad:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.edad" id="edad" max="19" type="number" class="form-control">
+            <input (blur)="this.validarEdad()" [(ngModel)]="this.nuevoGerente.edad" id="edad" max="19" type="number" class="form-control">
+            <div *ngIf="!this.isValidEdad" class="text-danger">*Edad inválida</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="email">Email:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.email" id="email" type="email" class="form-control">
+            <input (blur)="this.validarEmail()" [(ngModel)]="this.nuevoGerente.email" id="email" type="email" class="form-control">
+            <div *ngIf="!this.isValidEmail" class="text-danger">*Email inválido</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="password">Contraseña:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.password" id="password" type="password" class="form-control">
+            <input (blur)="this.validarPassword()" [(ngModel)]="this.nuevoGerente.password" id="password" type="text" class="form-control">
+            <div *ngIf="!this.isValidPassword" class="text-danger">*Password inválida</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="direccion">Dirección:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.direccion" id="direccion" type="text" class="form-control">
+            <input (blur)="this.validarDireccion()" [(ngModel)]="this.nuevoGerente.direccion" id="direccion" type="text" class="form-control">
+            <div *ngIf="!this.isValidDireccion" class="text-danger">*Dirección inválida</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="telefono">Teléfono:</label></p>
-            <input [(ngModel)]="this.nuevoGerente.telefono" id="telefono" type="text" class="form-control">
+            <input (blur)="this.validarTelefono()" [(ngModel)]="this.nuevoGerente.telefono" id="telefono" type="text" class="form-control">
+            <div *ngIf="!this.isValidTelefono" class="text-danger">*Teléfono inválido</div>
         </div>
 
         <div class="col-lg-4 mt-5">
-            <p><label for="administrador">Administrador:</label></p>
+            <p><label for="administrador">Rol:</label></p>
             <select [(ngModel)]="this.nuevoGerente.administrativo" name="" id="administrador" class="form-control">
                 <option *ngFor="let admin of this.administrativo" value="{{ admin.value }}">{{ admin.texto }}</option>
             </select>
         </div>
 
         <div class="col-lg-4 mt-5">
-            <button *ngIf="!this.nuevoGerente.id" class="btn btn-success btn-registrar w-100">Registrar</button>
+            <button (click)="this.createGerente()" *ngIf="!this.nuevoGerente.id" class="btn btn-success btn-registrar w-100">Registrar</button>
+
+            <button (click)="this.limpiarInputsDeSeleccion()" *ngIf="this.nuevoGerente.id" class="btn btn-secondary btn-limpiar w-100 mt-2">Limpiar</button>
+            <button (click)="this.updateGerente()" *ngIf="this.nuevoGerente.id" class="btn btn-dark btn-actualizar w-100 mt-2">Actualizar</button>
+            <button (click)="this.deleteGerente()" *ngIf="this.nuevoGerente.id" class="btn btn-danger btn-borrar w-100 mt-2">Eliminar</button>
         </div>
     </section>
 

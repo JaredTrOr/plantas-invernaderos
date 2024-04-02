@@ -10,7 +10,19 @@ function validateInputNoNumbers(input: string): boolean {
     return regex.test(input);
 }
 
+function onlyNumbers(input: string): boolean {
+    const regex = /^[0-9]+$/;
+    return regex.test(input);
+}
+
+function validateEmail(email: string): boolean {
+    const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    return regex.test(email);
+}
+
 export {
     validateInputWithNumbers,
-    validateInputNoNumbers
+    validateInputNoNumbers,
+    onlyNumbers,
+    validateEmail
 }

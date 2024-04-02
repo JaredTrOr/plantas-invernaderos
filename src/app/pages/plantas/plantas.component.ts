@@ -170,9 +170,11 @@ export class PlantasComponent implements OnInit {
   resetearValidacionesTrue(): void {
     this.isValidNombreCientifico = this.isValidNombreComun = this.isValidDescripcion = this.isValidColor = this.isValidCantidad = true;
   }
+
   resetearValidacionesFalse(): void {
     this.isValidNombreCientifico = this.isValidNombreComun = this.isValidDescripcion = this.isValidColor = false;
   }
+  
 
   //Funciones para validar inputs de texto
   validarNombreCientifico(): void { this.isValidNombreCientifico = validateInputNoNumbers(this.nuevaPlanta.nombreCientifico); }
