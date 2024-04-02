@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Planta } from '../models/Planta';
-import { Letalidad } from '../models/Letalidad';
+import { DobleSeleccion } from '../models/DobleSeleccion';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class PlantasService {
   private tiposDePlanta: string[] = [];
   private distribucionGeografica: string[] = [];
   private tiposDeFertilizantes: string[] = [];
-  private letalidad: Letalidad[] = [];
+  private letalidad: DobleSeleccion[] = [];
 
   constructor(private firestore: AngularFirestore) {
       this.tiposDeHabitat = [
@@ -128,7 +128,7 @@ export class PlantasService {
     return this.tiposDeFertilizantes;
   }
 
-  getLetalidad(): Letalidad[] {
+  getLetalidad(): DobleSeleccion[] {
     return this.letalidad;
   }
 

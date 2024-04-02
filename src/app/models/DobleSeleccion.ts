@@ -1,4 +1,4 @@
-export interface Letalidad {
+export interface DobleSeleccion {
     texto: string;
     value: boolean
 }

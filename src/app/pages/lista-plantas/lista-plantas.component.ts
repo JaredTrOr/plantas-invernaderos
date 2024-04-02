@@ -8,7 +8,7 @@ import { Planta } from '../../models/Planta';
 })
 export class ListaPlantasComponent {
   @Input() plantas! : Planta[];
-  @Output() plantaSeleccionada: EventEmitter<any> = new EventEmitter<any>();
+  @Output() plantaSeleccionada: EventEmitter<Planta> = new EventEmitter<Planta>();
 
   constructor() { }
 

@@ -1,1 +1,33 @@
-<p>lista-gerentes works!</p>
+<div *ngIf="!this.gerentes.length" class="text-center mt-5">
+    <p>
+        No hay ningun gerente disponible :(
+    </p>
+    <i class="fa-solid fa-user gap-right fa-lg"></i>
+</div>
+
+<table *ngIf="this.gerentes.length" class="table table-light">
+    <thead>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Edad</th>
+        <th>Email</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Administrador</th>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let gerente of this.gerentes">
+            <td>{{ gerente.id }}</td>
+            <td>{{ gerente.nombre }}</td>
+            <td>{{ gerente.apellidos }}</td>
+            <td>{{ gerente.edad }}</td>
+            <td>{{ gerente.email }}</td>
+            <td>{{ gerente.direccion }}</td>
+            <td>{{ gerente.telefono }}</td>
+            <td>{{ gerente.administrativo }}</td>
+            <td><button class="btn btn-primary" (click)="seleccionarGerente(gerente)">Seleccionar</button></td>
+        </tr>
+    </tbody>
+</table>

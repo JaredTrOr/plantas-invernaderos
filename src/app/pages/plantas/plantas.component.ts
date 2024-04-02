@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PlantasService } from '../../services/plantas.service';
 import { Planta } from '../../models/Planta';
-import { validateInputNoNumbers } from '../../utils/input-validation';
+import { validateInputNoNumbers, validateInputWithNumbers } from '../../utils/input-validation';
+import { DobleSeleccion } from '../../models/DobleSeleccion';
 import Swal from 'sweetalert2';
-import { Letalidad } from '../../models/Letalidad';
 
 @Component({
   selector: 'app-plantas',
@@ -15,19 +15,20 @@ export class PlantasComponent implements OnInit {
   nuevaPlanta!: Planta;
   listaPlantas: Planta[] = [];
 
-  //Declaración de datos obtenidor del PlantaService
+  //Declaración de datos obtenidos del PlantaService
   tiposDeClima: string[] = [];
   tiposDeHabitat: string[] = [];
   tiposDePlanta: string[] = [];
   tiposDeFertilizante: string[] = [];
   distribucionesGeograficasMexico: string[] = [];
-  letalidad: Letalidad[] = [];
+  letalidad: DobleSeleccion[] = [];
 
   //Validar inputs de texto
-  isValidNombreCientifico: boolean = true;
-  isValidNombreComun: boolean = true;
-  isValidColor: boolean = true;
-  isValidDescripcion: boolean = true;
+  isValidNombreCientifico: boolean = false;
+  isValidNombreComun: boolean = false;
+  isValidColor: boolean = false;
+  isValidDescripcion: boolean = false;
+  isValidCantidad: boolean = true;
 
   constructor(private plantaService: PlantasService) { }
 
@@ -39,6 +40,8 @@ export class PlantasComponent implements OnInit {
     this.tiposDeFertilizante = this.plantaService.getTiposDeFertilizante();
     this.distribucionesGeograficasMexico = this.plantaService.getDistribucionGeografica();
     this.letalidad = this.plantaService.getLetalidad();
+
+    //Obtener la nueva planta al inizializar el componente
     this.nuevaPlanta = this.plantaService.getNuevaPlanta();
 
     //Obtener las plantas del firebase
@@ -51,24 +54,10 @@ export class PlantasComponent implements OnInit {
       });
     });
 
-    console.log(this.nuevaPlanta);
-
   }  
 
   createPlanta(): void {
-    if(
-      this.nuevaPlanta.nombreCientifico === '' &&
-      this.nuevaPlanta.nombreComun === '' &&
-      this.nuevaPlanta.color === '' &&
-      this.nuevaPlanta.descripcion === ''
-    ) {
-      Swal.fire({
-        icon: "error",
-        title: "Llena todos los campos",
-        text: "No has llenado los campos necesarios",
-      });
-    }
-    else {      
+    if(this.validarInputs()) {
       delete this.nuevaPlanta.id;
       this.plantaService.createPlanta(this.nuevaPlanta);
       this.nuevaPlanta = this.plantaService.getNuevaPlanta();
@@ -79,6 +68,14 @@ export class PlantasComponent implements OnInit {
         icon: "success"
       });
 
+      this.resetearValidacionesFalse();
+    }
+    else {
+      Swal.fire({
+        icon: "error",
+        title: "Llena todos los campos",
+        text: "No has llenado los campos necesarios",
+      });
     }
 
   }
@@ -96,14 +93,26 @@ export class PlantasComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        this.plantaService.updatePlanta(this.nuevaPlanta);
-        this.nuevaPlanta = this.plantaService.getNuevaPlanta();
+        if(this.validarInputs()) {
+          this.plantaService.updatePlanta(this.nuevaPlanta);
+          this.nuevaPlanta = this.plantaService.getNuevaPlanta();
 
-        Swal.fire({
-          title: "!Actualizado!",
-          text: "Los campos han sido actualizados",
-          icon: "success"
-        });
+          Swal.fire({
+            title: "!Actualizado!",
+            text: "Los campos han sido actualizados",
+            icon: "success"
+          });
+
+          this.resetearValidacionesFalse();
+        }
+
+        else {
+          Swal.fire({
+            icon: "error",
+            title: "Llena todos los campos",
+            text: "No has llenado los campos necesarios",
+          });
+        }
       }
     });
   }
@@ -129,6 +138,8 @@ export class PlantasComponent implements OnInit {
           text: "La planta ha sido eliminada",
           icon: "success"
         });
+
+        this.resetearValidacionesFalse();
       }
     });
   }
@@ -143,10 +154,12 @@ export class PlantasComponent implements OnInit {
   }
 
   plantaSeleccionada(planta: Planta): void {
+    this.resetearValidacionesTrue();
     this.nuevaPlanta = {...planta};
   }
 
   limpiarInputsDeSeleccion(): void {
+    this.resetearValidacionesFalse();
     this.nuevaPlanta = this.plantaService.getNuevaPlanta();
   }
 
@@ -154,9 +167,30 @@ export class PlantasComponent implements OnInit {
     console.log(this.nuevaPlanta);
   }
 
+  resetearValidacionesTrue(): void {
+    this.isValidNombreCientifico = this.isValidNombreComun = this.isValidDescripcion = this.isValidColor = this.isValidCantidad = true;
+  }
+  resetearValidacionesFalse(): void {
+    this.isValidNombreCientifico = this.isValidNombreComun = this.isValidDescripcion = this.isValidColor = false;
+  }
+
   //Funciones para validar inputs de texto
   validarNombreCientifico(): void { this.isValidNombreCientifico = validateInputNoNumbers(this.nuevaPlanta.nombreCientifico); }
   validarNombreComun(): void { this.isValidNombreComun = validateInputNoNumbers(this.nuevaPlanta.nombreComun); }
   validarColor(): void { this.isValidColor = validateInputNoNumbers(this.nuevaPlanta.color); }
   validarDescripcion(): void { this.isValidDescripcion = validateInputNoNumbers(this.nuevaPlanta.descripcion); }
+  validarCantidad(): void { 
+    if (this.nuevaPlanta.cantidad <= 0) this.isValidCantidad = false;
+    else this.isValidCantidad = validateInputWithNumbers(String(this.nuevaPlanta.cantidad));
+  }
+
+  validarInputs(): boolean {
+    return (
+      this.isValidNombreCientifico &&
+      this.isValidNombreComun &&
+      this.isValidColor &&
+      this.isValidDescripcion &&
+      this.isValidCantidad
+    );
+  }
 }

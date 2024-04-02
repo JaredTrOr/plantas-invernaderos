@@ -16,6 +16,8 @@ import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { ListaPlantasComponent } from './pages/lista-plantas/lista-plantas.component';
 import { GerentesComponent } from './pages/gerentes/gerentes.component';
 import { ListaGerentesComponent } from './pages/lista-gerentes/lista-gerentes.component';
+import { InvernaderosComponent } from './pages/invernaderos/invernaderos.component';
+import { ListaInvernaderosComponent } from './pages/lista-invernaderos/lista-invernaderos.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ListaGerentesComponent } from './pages/lista-gerentes/lista-gerentes.co
     SidebarComponent,
     ListaPlantasComponent,
     GerentesComponent,
-    ListaGerentesComponent
+    ListaGerentesComponent,
+    InvernaderosComponent,
+    ListaInvernaderosComponent
   ],
   imports: [
     BrowserModule,

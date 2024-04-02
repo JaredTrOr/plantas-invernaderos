@@ -5,14 +5,14 @@
 
         <div class="col-lg-4 mt-5">
             <p><label for="nombreCientifico">Nombre científico:</label></p>
-            <input (blur)="validarNombreCientifico()" [(ngModel)]="this.nuevaPlanta.nombreCientifico" id="nombreCientifico" type="text" class="form-control">
-            <div *ngIf="!this.isValidNombreCientifico" class="text-danger">Nombre científico inválido, porfavor ingrese caracteres válidos</div>
+            <input (blur)="this.validarNombreCientifico()" [(ngModel)]="this.nuevaPlanta.nombreCientifico" id="nombreCientifico" type="text" class="form-control">
+            <div *ngIf="!this.isValidNombreCientifico" class="text-danger">*Nombre científico inválido</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="nombreComun">Nombre común:</label></p>
-            <input (blur)="validarNombreComun()" [(ngModel)]="this.nuevaPlanta.nombreComun" id="nombreComun" type="text" class="form-control">
-            <div *ngIf="!this.isValidNombreComun" class="text-danger">Nombre común inválido, porfavor ingrese caracteres válidos</div>
+            <input (blur)="this.validarNombreComun()" [(ngModel)]="this.nuevaPlanta.nombreComun" id="nombreComun" type="text" class="form-control">
+            <div *ngIf="!this.isValidNombreComun" class="text-danger">*Nombre común inválido</div>
 
         </div>
 
@@ -46,26 +46,27 @@
 
         <div class="col-lg-4 mt-5">
             <p><label for="color">Color:</label></p>
-            <input (blur)="validarColor()" [(ngModel)]="this.nuevaPlanta.color" id="color" type="text" class="form-control">
-            <div *ngIf="!this.isValidColor" class="text-danger">Color inválido, porfavor ingrese caracteres válidos</div>
+            <input (blur)="this.validarColor()" [(ngModel)]="this.nuevaPlanta.color" id="color" type="text" class="form-control">
+            <div *ngIf="!this.isValidColor" class="text-danger">*Color inválido</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="letalidad">Letalidad:</label></p>
-            <select (change)="test()" [(ngModel)]="this.nuevaPlanta.venenosa" class="form-control" name="" id="letalidad">
+            <select (change)="this.test()" [(ngModel)]="this.nuevaPlanta.venenosa" class="form-control" name="" id="letalidad">
                 <option *ngFor="let obj of letalidad" value="{{ obj.value }}">{{ obj.texto }}</option>
             </select>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="cantidad">Cantidad:</label></p>
-            <input [(ngModel)]="this.nuevaPlanta.cantidad" id="cantidad" min="1" type="number" class="form-control">
+            <input (blur)="this.validarCantidad()" [(ngModel)]="this.nuevaPlanta.cantidad" id="cantidad" min="1" type="number" class="form-control">
+            <div *ngIf="!this.isValidCantidad" class="text-danger">*Cantidad inválida</div>
         </div>
 
         <div class="col-lg-4 mt-5">
             <p><label for="descripcion">Descripción:</label></p>
-            <textarea (blur)="validarDescripcion()" [(ngModel)]="this.nuevaPlanta.descripcion" class="form-control no-resize" name="" id="descripcion" cols="30" rows="5"></textarea>
-            <div *ngIf="!this.isValidDescripcion" class="text-danger">Descripción inválida, porfavor ingrese caracteres válidos</div>
+            <textarea (blur)="this.validarDescripcion()" [(ngModel)]="this.nuevaPlanta.descripcion" class="form-control no-resize" name="" id="descripcion" cols="30" rows="5"></textarea>
+            <div *ngIf="!this.isValidDescripcion" class="text-danger">*Descripción inválida</div>
         </div>
 
         <div class="col-lg-4 mt-5">

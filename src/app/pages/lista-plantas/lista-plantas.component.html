@@ -9,6 +9,7 @@
 <table *ngIf="this.plantas.length" class="table table-light">
     <thead>
         <th>Id</th>
+        <th>Nombre científico</th>
         <th>Nombre común</th>
         <th>Letalidad</th>
         <th>Tipo planta</th>
@@ -20,12 +21,15 @@
     <tbody>
         <tr *ngFor="let planta of this.plantas">
             <td>{{ planta.id }}</td>
+            <td>{{ planta.nombreCientifico }}</td>
             <td>{{ planta.nombreComun }}</td>
             <td>{{ planta.venenosa }}</td>
             <td>{{ planta.tipoPlanta }}</td>
             <td>{{ planta.clima }}</td>
             <td>{{ planta.cantidad }}</td>
-            <td><button class="btn btn-primary" (click)="seleccionarPlanta(planta)">Seleccionar</button></td>
+            <td>
+                <button class="btn btn-primary" (click)="seleccionarPlanta(planta)">Seleccionar</button>
+            </td>
         </tr>
     </tbody>
 </table>
