@@ -40,8 +40,6 @@ export class GerentesComponent implements OnInit{
           id: doc.payload.doc.id
         };
       });
-
-      console.log(this.listaGerentes);
     });
   }
 

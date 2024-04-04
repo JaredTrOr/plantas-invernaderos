@@ -2,6 +2,53 @@
     <h1><i class="fa-solid fa-warehouse gap-right fa-lg"></i>   Invernaderos</h1>
 
     <section class="form-container row">
+        <div class="col-lg-4 mt-5">
+            <p><label for="nombreInvernadero">Nombre Invernadero:</label></p>
+            <input (blur)="this.validarNombre()" [(ngModel)]="this.nuevoInvernadero.nombre" id="nombreInvernadero" type="text" class="form-control">
+            <div *ngIf="!this.isValidNombre" class="text-danger">*Nombre invernadero inválido</div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="direccion">Dirección:</label></p>
+            <input (blur)="this.validarDireccion()" [(ngModel)]="this.nuevoInvernadero.direccion" id="direccion" type="text" class="form-control">
+            <div *ngIf="!this.isValidDireccion" class="text-danger">*Dirección inválida</div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="telefono">Teléfono:</label></p>
+            <input (blur)="this.validarTelefono()" [(ngModel)]="this.nuevoInvernadero.telefono" id="telefono" type="text" class="form-control">
+            <div *ngIf="!this.isValidTelefono" class="text-danger">*Teléfono inválida</div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="gerentes">Gerentes:</label></p>
+            <button (click)="this.agregarInputGerentes()" class="btn btn-warning mt-3">Añadir otro</button>
+            <button (click)="this.removerInputGerentes()" *ngIf="this.nuevoInvernadero.gerentes.length > 1" class="btn btn-danger mt-3">Remover</button>
+            <div class="dinamico">
+                <select id="gerentes" *ngFor="let input of this.nuevoInvernadero.gerentes; let i = index" [(ngModel)]="this.nuevoInvernadero.gerentes[i]" class="form-control mt-3" name="">
+                    <option *ngFor="let gerente of this.listaGerentes" value="{{ gerente.id }}">{{ gerente.nombre }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <p><label for="plantas">Plantas:</label></p>
+            <button (click)="this.agregarInputPlantas()" class="btn btn-warning mt-3">Añadir otro</button>
+            <button (click)="this.removerInputPlantas()" *ngIf="this.nuevoInvernadero.plantas.length > 1" class="btn btn-danger mt-3">Remover</button>
+            <div class="dinamico">
+                <select id="plantas" *ngFor="let input of this.nuevoInvernadero.plantas; let i = index" [(ngModel)]="this.nuevoInvernadero.plantas[i]" class="form-control mt-3" name="">
+                    <option *ngFor="let planta of this.listaPlantas" value="{{ planta.id }}">{{ planta.nombreComun }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mt-5">
+            <button *ngIf="!this.nuevoInvernadero.id" (click)="this.createInvernadero()" class="btn btn-success btn-registrar w-100">Registrar</button>
+
+            <button (click)="this.limpiarSeleccion()" *ngIf="this.nuevoInvernadero.id" class="btn btn-secondary btn-limpiar w-100 mt-2">Limpiar</button>
+            <button (click)="this.updateInvernadero()" *ngIf="this.nuevoInvernadero.id" class="btn btn-dark btn-actualizar w-100 mt-2">Actualizar</button>
+            <button (click)="this.deleteInvernadero()" *ngIf="this.nuevoInvernadero.id" class="btn btn-danger btn-borrar w-100 mt-2">Eliminar</button>
+        </div>
 
     </section>
 </div>

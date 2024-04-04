@@ -57,7 +57,7 @@ export class PlantasComponent implements OnInit {
   }  
 
   createPlanta(): void {
-    if(this.validarInputs()) {
+    if (this.validarInputs()) {
       delete this.nuevaPlanta.id;
       this.plantaService.createPlanta(this.nuevaPlanta);
       this.nuevaPlanta = this.plantaService.getNuevaPlanta();
@@ -70,6 +70,7 @@ export class PlantasComponent implements OnInit {
 
       this.resetearValidacionesFalse();
     }
+
     else {
       Swal.fire({
         icon: "error",
