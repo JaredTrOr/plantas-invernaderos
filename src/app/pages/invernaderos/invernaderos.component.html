@@ -36,7 +36,12 @@
             <button (click)="this.agregarInputPlantas()" class="btn btn-warning mt-3">Añadir otro</button>
             <button (click)="this.removerInputPlantas()" *ngIf="this.nuevoInvernadero.plantas.length > 1" class="btn btn-danger mt-3">Remover</button>
             <div class="dinamico">
-                <select id="plantas" *ngFor="let input of this.nuevoInvernadero.plantas; let i = index" [(ngModel)]="this.nuevoInvernadero.plantas[i]" class="form-control mt-3" name="">
+                <select 
+                    id="plantas" 
+                    *ngFor="let input of this.nuevoInvernadero.plantas; let i = index" 
+                    [(ngModel)]="this.nuevoInvernadero.plantas[i]" 
+                    class="form-control mt-3" name=""
+                >
                     <option *ngFor="let planta of this.listaPlantas" value="{{ planta.id }}">{{ planta.nombreComun }}</option>
                 </select>
             </div>
@@ -49,6 +54,15 @@
             <button (click)="this.updateInvernadero()" *ngIf="this.nuevoInvernadero.id" class="btn btn-dark btn-actualizar w-100 mt-2">Actualizar</button>
             <button (click)="this.deleteInvernadero()" *ngIf="this.nuevoInvernadero.id" class="btn btn-danger btn-borrar w-100 mt-2">Eliminar</button>
         </div>
+    </section>
 
+    <section>
+        <app-lista-invernaderos 
+            [invernaderos]="this.listaInvernaderos" 
+            [plantas]="this.listaPlantas"
+            [gerentes]="this.listaGerentes"
+            (invernaderoSeleccionado)="invernaderoSeleccionado($event)"
+        >
+        </app-lista-invernaderos>
     </section>
 </div>

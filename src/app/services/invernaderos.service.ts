@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Invernadero } from '../models/Invernadero';
 
@@ -34,13 +34,5 @@ export class InvernaderosService {
     this.firestore.doc(`invernaderos/${invernaderoId}`).delete();
   }
 
-  setPlantasInvernadero(idPlanta: string): void {
-    this.nuevoInvernadero.plantas.push(idPlanta);
-  }
-
-  setGerentesInvernadero(idGerente: string): void {
-    this.nuevoInvernadero.gerentes.push(idGerente);
-  }
-
-  getNuevoInvernadero(): Invernadero { return this.nuevoInvernadero }
+  getNuevoInvernadero(): Invernadero { return {...this.nuevoInvernadero} }
 }

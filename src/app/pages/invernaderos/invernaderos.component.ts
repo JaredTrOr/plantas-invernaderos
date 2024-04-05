@@ -17,14 +17,18 @@ export class InvernaderosComponent implements OnInit {
 
   nuevoInvernadero!: Invernadero;
 
-  listaInvernaderos!: Invernadero[];
-  listaPlantas!: Planta[];
-  listaGerentes!: Gerente[];
+  listaInvernaderos: Invernadero[] = [];
+  listaPlantas: Planta[] = [];
+  listaGerentes: Gerente[] = [];
 
   //Validaciones
   isValidNombre: boolean = false;
   isValidDireccion: boolean = false;
   isValidTelefono: boolean = false;
+
+  //Guardar los ID's de plantas y gerentes
+  idPlanta!: string;
+  idGerente!: string;
 
   constructor(
     private invernaderoService: InvernaderosService, 
@@ -38,6 +42,15 @@ export class InvernaderosComponent implements OnInit {
     this.nuevoInvernadero = this.invernaderoService.getNuevoInvernadero();
 
     //Carga de listas de los diferentes servicios
+    this.invernaderoService.getInvernaderos().subscribe(data => {
+      this.listaInvernaderos = data.map(doc => {
+        return {
+          ...doc.payload.doc.data() as Invernadero,
+          id: doc.payload.doc.id
+        };
+      });
+    });
+
     this.plantaService.getPlantas().subscribe(data => {
       this.listaPlantas = data.map(doc => {
         return {
@@ -52,7 +65,8 @@ export class InvernaderosComponent implements OnInit {
       //Agregar el primer ID de la lista de palntas para que el input de selección 
       //coincida
       if (this.listaPlantas.length) {
-        this.nuevoInvernadero.plantas.push(this.listaPlantas[0].id!);
+        this.idPlanta = this.listaPlantas[0].id!;
+        this.nuevoInvernadero.plantas.push(this.idPlanta);
       }
     });
 
@@ -70,18 +84,10 @@ export class InvernaderosComponent implements OnInit {
       //Agregar el primer ID de la lista de gerentes para que el input de selección 
       //coincida
       if (this.listaGerentes.length) {
-        this.nuevoInvernadero.gerentes.push(this.listaGerentes[0].id!);
+        this.idGerente = this.listaGerentes[0].id!;
+        this.nuevoInvernadero.gerentes.push(this.idGerente);
       }
 
-    });
-
-    this.invernaderoService.getInvernaderos().subscribe(data => {
-      this.listaInvernaderos = data.map(doc => {
-        return {
-          ...doc.payload.doc.data() as Invernadero,
-          id: doc.payload.doc.id
-        };
-      });
     });
 
   }
@@ -98,6 +104,8 @@ export class InvernaderosComponent implements OnInit {
         icon: "success"
       });
 
+      this.setPlantaInvernadero(this.idPlanta);
+      this.setGerenteInvernadero(this.idGerente);
       this.resetearValidacionesFalse();
     }
     
@@ -133,6 +141,8 @@ export class InvernaderosComponent implements OnInit {
             icon: "success"
           });
 
+          this.setPlantaInvernadero(this.idPlanta);
+          this.setGerenteInvernadero(this.idGerente);
           this.resetearValidacionesFalse();
         }
 
@@ -169,6 +179,8 @@ export class InvernaderosComponent implements OnInit {
           icon: "success"
         });
 
+        this.setGerenteInvernadero(this.idGerente);
+        this.setPlantaInvernadero(this.idPlanta);
         this.resetearValidacionesFalse();
       }
     });
@@ -176,13 +188,15 @@ export class InvernaderosComponent implements OnInit {
 
   //Funcionalidad de selección
   invernaderoSeleccionado(invernadero: Invernadero): void {
-    //Reset
+    this.resetearValidacionesTrue();
     this.nuevoInvernadero = {...invernadero};
   }
 
   limpiarSeleccion(): void {
-    //Reset
     this.nuevoInvernadero = this.invernaderoService.getNuevoInvernadero();
+    this.setPlantaInvernadero(this.idPlanta);
+    this.setGerenteInvernadero(this.idGerente);
+    this.resetearValidacionesFalse();
   }
 
   //Funcionalidad de UI
@@ -204,6 +218,17 @@ export class InvernaderosComponent implements OnInit {
 
   removerInputPlantas(): void {
     this.nuevoInvernadero.plantas.pop();
+  }
+
+  //Agregar los ID's de selección en el arreglo de plantas y gerentes del invernadero
+  setPlantaInvernadero(idPlanta: string): void {
+    this.nuevoInvernadero.plantas = [];
+    this.nuevoInvernadero.plantas.push(idPlanta);
+  }
+
+  setGerenteInvernadero(idGerente: string): void {
+    this.nuevoInvernadero.gerentes = [];
+    this.nuevoInvernadero.gerentes.push(idGerente);
   }
 
   //Validaciones de entrada

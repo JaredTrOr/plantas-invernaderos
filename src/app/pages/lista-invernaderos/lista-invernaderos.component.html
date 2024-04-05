@@ -1,1 +1,39 @@
-<p>lista-invernaderos works!</p>
+<div *ngIf="!this.invernaderos.length" class="text-center mt-5">
+    <p>
+        No hay ningun invernadero disponible :(
+    </p>
+    <i class="fa-solid fa-warehouse gap-right fa-lg"></i>
+</div>
+
+<h2 *ngIf="this.invernaderos.length">Lista invernaderos</h2>
+<table *ngIf="this.invernaderos.length" class="mt-5 table table-light">
+    <thead>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Gerentes</th>
+        <th>Plantas registradas/Cantidad</th>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let invernadero of this.invernaderos">
+            <td>{{ invernadero.id }}</td>
+            <td>{{ invernadero.nombre }}</td>
+            <td>{{ invernadero.direccion }}</td>
+            <td>{{ invernadero.telefono }}</td>
+
+            <td>
+                <li *ngFor="let gerenteId of invernadero.gerentes">
+                    {{ obtenerNombreGerentes(gerenteId) }}
+                </li>
+            </td>
+            <td>
+                <li *ngFor="let plantaId of invernadero.plantas">
+                    {{ obtenerNombrePlantaCantidad(plantaId) }}
+                </li>
+            </td>
+            <td><button class="btn btn-primary" (click)="seleccionarInvernadero(invernadero)">Seleccionar</button></td>
+        </tr>
+    </tbody>
+</table>
