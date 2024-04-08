@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Planta } from '../models/Planta';
 import { DobleSeleccion } from '../models/DobleSeleccion';
+import { InvernaderosService } from './invernaderos.service';
+import { Invernadero } from '../models/Invernadero';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class PlantasService {
   private tiposDeFertilizantes: string[] = [];
   private letalidad: DobleSeleccion[] = [];
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, private invernaderoService: InvernaderosService) {
       this.tiposDeHabitat = [
       "Bosque",
       "Pradera",
@@ -105,7 +107,34 @@ export class PlantasService {
   }
 
   deletePlanta(plantaId: string) {
+    let invernaderos: Invernadero[] = [];
+
     this.firestore.doc(`plantas/${plantaId}`).delete();
+
+    //Borrar planta de la tabla de invernaderos
+    this.invernaderoService.getInvernaderosPorIdPlanta(plantaId).subscribe(data => {
+      invernaderos = data.map(doc => {
+        return {
+          ...doc.payload.doc.data() as Invernadero,
+          id: doc.payload.doc.id
+        };
+      });
+
+      const nuevosInvernaderos = invernaderos.map(invernadero => {
+        for (let id of invernadero.plantas) {
+          if (id === plantaId) {
+            let indexToRemove = invernadero.plantas.indexOf(id);
+            invernadero.plantas.splice(indexToRemove, 1);
+          }
+        }
+
+        return invernadero;
+      });
+
+      for (let invernadero of nuevosInvernaderos) {
+        this.invernaderoService.updateInvernadero(invernadero);
+      }
+    });
   }
 
   getTiposDeHabitat(): string[] {

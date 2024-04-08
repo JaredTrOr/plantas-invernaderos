@@ -87,7 +87,6 @@ export class InvernaderosComponent implements OnInit {
         this.idGerente = this.listaGerentes[0].id!;
         this.nuevoInvernadero.gerentes.push(this.idGerente);
       }
-
     });
 
   }

@@ -22,6 +22,18 @@ export class InvernaderosService {
     return this.firestore.collection('invernaderos').snapshotChanges();
   }
 
+  getInvernaderosPorIdGerente(gerenteId: string) {
+    return this.firestore.collection('invernaderos', ref =>
+        ref.where('gerentes', 'array-contains', gerenteId)
+    ).snapshotChanges();
+  }
+
+  getInvernaderosPorIdPlanta(plantaId: string) {
+    return this.firestore.collection('invernaderos', ref =>
+        ref.where('plantas', 'array-contains', plantaId)
+    ).snapshotChanges();
+  }
+
   createInvernadero(invernadero: Invernadero) {
     return this.firestore.collection('invernaderos').add(Object.assign({}, invernadero));
   }

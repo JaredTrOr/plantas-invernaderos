@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Invernadero } from '../../models/Invernadero';
 import { Planta } from '../../models/Planta';
 import { Gerente } from '../../models/Gerente';
@@ -23,8 +23,8 @@ export class ListaInvernaderosComponent {
     let nombreGerente: string = '';
 
     for(let gerente of this.gerentes)
-      if (gerente.id === idGerente) nombreGerente += gerente.nombre + gerente.apellidos;
-      
+      if (gerente.id === idGerente) nombreGerente += gerente.nombre + ' ' + gerente.apellidos;
+    
     return nombreGerente;
   } 
 
